@@ -7,10 +7,31 @@ import {
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 
+import  IconoAhorro  from '../img/icono_ahorro.svg';
+import  IconoCasa  from '../img/icono_casa.svg';
+import  IconoComida  from '../img/icono_comida.svg';
+import  IconoGastos  from '../img/icono_gastos.svg';
+import  IconoOcio  from '../img/icono_ocio.svg';
+import  IconoSalud  from '../img/icono_salud.svg';
+import  IconoSucripciones  from '../img/icono_suscripciones.svg';
+import  IconoTransporte  from '../img/icono_transporte.svg';
+
 import { formatearCantidad, formatearFecha } from '../helpers';
 
 
 const Gasto = ({ gasto, setGastoEditar, eliminarGasto }) => {
+
+  const diccionarioIconos = {
+    ahorro: IconoAhorro,
+    casa: IconoCasa,
+    comida: IconoComida,
+    gastos: IconoGastos,
+    ocio: IconoOcio,
+    salud: IconoSalud,
+    suscripciones: IconoSucripciones,
+    transporte: IconoTransporte,
+
+  }
   const { nombre, cantidad, categoria, fecha, id } = gasto;
 
   //Editar gasto
@@ -29,7 +50,7 @@ const trailingActions = () => (
       destructive={true}
       onClick={() => eliminarGasto(id)}
     >
-      Delete
+      Eliminar
     </SwipeAction>
   </TrailingActions>
 
@@ -44,7 +65,7 @@ const trailingActions = () => (
         <div className="gasto sombra ">
           <div className="contenido-gasto">
             <img
-              src={`./src/img/icono_${categoria}.svg`}
+              src={diccionarioIconos[categoria]}
               alt="imagen categoria"
             />
             <div className="descripcion-gasto">
