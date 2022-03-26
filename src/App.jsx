@@ -104,6 +104,7 @@ function App() {
           presupuesto={presupuesto}
           totalGastado={totalGastado}
           gastoEditar={gastoEditar}
+          setGastoEditar={setGastoEditar}
         />
       )}
     </div>
