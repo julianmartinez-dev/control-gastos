@@ -405,3 +405,20 @@ body .modal {
     font-size: 2.4rem;
     text-align: right;
 }
+
+.footer{
+    text-align: center;
+    margin-top: 50px;
+    background-color: #3b82f6;
+    color: #FFF;
+    padding-top: 20px;
+    
+}
+
+.footer span{
+    font-weight: 900;
+}
+
+.footer svg{
+    padding: 0;
+}

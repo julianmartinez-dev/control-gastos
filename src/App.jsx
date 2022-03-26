@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
+import Filtros from './components/Filtros';
 import ListadoGastos from './components/ListadoGastos';
 import Modal from './components/Modal';
+import Footer from './components/Footer';
 import { generarID } from './helpers';
 import IconoNuevoGasto from './img/nuevo-gasto.svg';
 
@@ -16,14 +18,13 @@ function App() {
       : []
   );
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
-  //State para el modal
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
-
   const [totalGastado, setTotalGastado] = useState(0);
-
   const [gastoEditar, setGastoEditar] = useState({});
-  
+  const [filtro, setFiltro] = useState('');
+  const [gastosFiltrados, setGastosFiltrados] = useState([])
+
   //Sincronizar localStorage
   useEffect(() => {
     localStorage.setItem('presupuesto', presupuesto);
@@ -57,6 +58,15 @@ function App() {
       setIsValidPresupuesto(true);
     }
   }, []);
+
+  useEffect(() => {
+    //Filtrar por categoria
+    if(filtro){
+      const gastosFiltrados = gastos.filter(gasto => gasto.categoria === filtro);
+      setGastosFiltrados(gastosFiltrados);
+      
+    }
+  },[filtro]);
 
   //Cuando hacemos click en el boton de agregar gasto
   const handleNuevoGasto = () => {
@@ -96,16 +106,21 @@ function App() {
         isValidPresupuesto={isValidPresupuesto}
         setIsValidPresupuesto={setIsValidPresupuesto}
         totalGastado={totalGastado}
+        setGastos={setGastos}
       />
 
       {/* Si el presupuesto es válido mostramos un boton para agregar gastos */}
       {isValidPresupuesto && (
         <>
           <main>
+            {gastos.length > 0 && <Filtros filtro={filtro} setFiltro={setFiltro}/>}
+
             <ListadoGastos
               gastos={gastos}
               setGastoEditar={setGastoEditar}
               eliminarGasto={eliminarGasto}
+              filtro={filtro}
+              gastosFiltrados={gastosFiltrados}
             />
           </main>
 
@@ -132,6 +147,7 @@ function App() {
           setGastoEditar={setGastoEditar}
         />
       )}
+      <Footer />
     </div>
   );
 }
