@@ -1,16 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CerrarBTN from '../img/cerrar.svg';
 import Mensaje from './Mensaje';
 
-const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
+const Modal = ({
+  setModal,
+  animarModal,
+  setAnimarModal,
+  guardarGasto,
+  presupuesto,
+  totalGastado,
+  gastoEditar
+}) => {
   const [nombre, setNombre] = useState('');
   const [cantidad, setCantidad] = useState(0);
   const [categoria, setCategoria] = useState('');
   const [mensaje, setMensaje] = useState('');
+  const [id, setId] = useState('');
+  const [fecha, setFecha] = useState(''); 
+
+  //Cuando se cargue el modal se llena el formulario con los datos del gasto a editar
+  useEffect(() => {
+    if (Object.keys(gastoEditar).length > 0) {
+      setNombre(gastoEditar.nombre);
+      setCantidad(gastoEditar.cantidad);
+      setCategoria(gastoEditar.categoria);
+      setId(gastoEditar.id);
+      setFecha(gastoEditar.fecha);
+    }
+  },[]);
 
   const ocultarModal = () => {
     setAnimarModal(false);
-
+    
     setTimeout(() => {
       setModal(false);
     }, 500);
@@ -28,9 +49,13 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
       }, 3000);
       return;
     }
-
+    //Valida si el gasto es menor al disponible
+    if(cantidad > (presupuesto - totalGastado)){
+      setMensaje('No puedes gastar mas de lo que dispones');
+      return;
+    }
     //Si estan llenos enviamos el gasto al componente principal
-    guardarGasto({ nombre, cantidad, categoria });
+    guardarGasto({ nombre, cantidad, categoria, id, fecha });
     //Y ocultamos el modal
     ocultarModal();
   };
@@ -45,7 +70,7 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
         className={`formulario ${animarModal ? 'animar' : 'cerrar'}`}
         onSubmit={handleSubmit}
       >
-        <legend>Nuevo gasto</legend>
+        <legend>{gastoEditar.nombre ? 'Editar gasto' : 'Nuevo gasto'}</legend>
         <div className="campo">
           <label htmlFor="nombre">Nombre Gasto</label>
           <input
@@ -91,7 +116,10 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
           </select>
         </div>
 
-        <input type="submit" value="Añadir Gasto" />
+        <input
+          type="submit"
+          value={gastoEditar.nombre ? 'Guardar edición' : 'Añadir gasto'}
+        />
         {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
       </form>
     </div>

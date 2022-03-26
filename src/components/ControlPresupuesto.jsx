@@ -1,6 +1,6 @@
 import { formatearCantidad } from "../helpers";
 
-const ControlPresupuesto = ({presupuesto}) => {
+const ControlPresupuesto = ({presupuesto,totalGastado}) => {
 
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
@@ -14,11 +14,11 @@ const ControlPresupuesto = ({presupuesto}) => {
         </p>
         <p>
           <span>Disponible: </span>
-          {formatearCantidad(0)}
+          {formatearCantidad(presupuesto - totalGastado)}
         </p>
         <p>
           <span>Gastado: </span>
-          {formatearCantidad(0)}
+          {formatearCantidad(totalGastado)}
         </p>
       </div>
     </div>
