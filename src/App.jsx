@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Header from './components/Header';
+import ListadoGastos from './components/ListadoGastos';
 import Modal from './components/Modal';
 import { generarID } from './helpers';
 import IconoNuevoGasto from './img/nuevo-gasto.svg';
@@ -25,11 +26,12 @@ function App() {
   //Se ejectuta desde el modal cuando se hace click en el boton de guardar
   const guardarGasto = (gasto) => {
     gasto.id = generarID();
+    gasto.fecha = Date.now()
     setGastos([...gastos, gasto]);
   };
 
   return (
-    <div>
+    <div className={modal && 'fijar'}>
       <Header
         presupuesto={presupuesto}
         setPresupuesto={setPresupuesto}
@@ -39,13 +41,20 @@ function App() {
 
       {/* Si el presupuesto es válido mostramos un boton para agregar gastos */}
       {isValidPresupuesto && (
-        <div className="nuevo-gasto">
-          <img
-            src={IconoNuevoGasto}
-            alt="icono nuevo gasto"
-            onClick={handleNuevoGasto}
-          />
-        </div>
+        <>
+          <main>
+            <ListadoGastos gastos={gastos}/>
+          </main>
+          
+
+          <div className="nuevo-gasto">
+            <img
+              src={IconoNuevoGasto}
+              alt="icono nuevo gasto"
+              onClick={handleNuevoGasto}
+            />
+          </div>
+        </>
       )}
 
       {/* Cuando damos click en el boton mostramos una ventana modal */}
