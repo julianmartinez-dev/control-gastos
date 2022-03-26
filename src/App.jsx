@@ -3,7 +3,6 @@ import Header from './components/Header';
 import Filtros from './components/Filtros';
 import ListadoGastos from './components/ListadoGastos';
 import Modal from './components/Modal';
-import Footer from './components/Footer';
 import { generarID } from './helpers';
 import IconoNuevoGasto from './img/nuevo-gasto.svg';
 
@@ -147,7 +146,6 @@ function App() {
           setGastoEditar={setGastoEditar}
         />
       )}
-      <Footer />
     </div>
   );
 }

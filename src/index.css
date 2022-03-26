@@ -412,6 +412,8 @@ body .modal {
     background-color: #3b82f6;
     color: #FFF;
     padding-top: 20px;
+    bottom: 0;
+    z-index: -1;
     
 }
 
